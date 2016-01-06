@@ -1,0 +1,172 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections.Specialized" #>
+
+<# if(ProductsDrawGrandTotalsHash.Count > 0){
+
+ #>
+
+
+<#    if(TruckDictionary["UseHeader"] == "True"){
+
+ #>
+
+    <tr>
+      <td class="header"  align="left" colspan="1"><#=  TruckDictionary["RunDate"] #> - 5 Day - 1 Part Run</td>
+      <td class="header"  align="center" colspan="9">Post Gazette Dispatch Sheet </td>
+
+      <td  colspan="6" align="right" class="header">Page: 1 </td>
+
+    </tr>
+       <tr>
+      <td class="header" align="left">Created: <#= DateTime.Now.ToShortDateString()+" "+ DateTime.Now.ToLongTimeString() #></td>
+      <td  colspan="5" align="left" class="header"><div style="height: 2px; background-color:gray; text-align: center">
+  <span style="background-color:#cccccc; position: relative; top: -0.5em; padding:2px;">
+    1st Sequence
+  </span>
+</div></td>
+      <td colspan="5" align="left" class="header"><div style="height: 2px; background-color: gray; text-align: center">
+  <span style="background-color: #cccccc; position: relative; top: -0.5em;  padding:2px;">
+    2nd Sequence
+  </span>
+</div></td>
+      <td colspan="5" align="left" class="header"><div style="height: 2px; background-color: gray; text-align: center">
+  <span style="background-color: #cccccc; position: relative; top: -0.5em; padding:2px;">
+   3rd Sequence
+  </span>
+</div></td>
+    </tr>
+    <tr>
+      <td class="header" align="left">Key Truck </td>
+      <td align="left" class="header">Prod-Bs </td>
+      <td align="left" class="header">&nbsp;</td>
+      <td align="left" class="header">Copies </td>
+      <td align="left" class="header">Bunds </td>
+      <td align="left" class="header"> Odds</td>
+      <td align="left" class="header">Prod-Bs </td>
+      <td align="left" class="header">&nbsp;</td>
+      <td align="left" class="header">Copies </td>
+      <td align="left" class="header">Bunds </td>
+      <td align="left" class="header">Odds</td>
+     <td align="left" class="header">Prod-Bs</td>
+      <td align="left" class="header">&nbsp;</td>
+      <td align="left" class="header">Copies</td>
+      <td align="left" class="header">Bunds</td>
+      <td align="left" class="header">Odds</td>
+    </tr>
+    <tr>
+      <td class="header" align="left" colspan="16"><hr /></td>
+    </tr>
+  <# } #>
+
+    <tr>
+     
+      <td class="detail" align="left"><b><#= TruckDictionary["ShortTruckID"] #></b> - <#= TruckDictionary["TruckName"] +"-"+TruckDictionary["DeliveryArea"].Split(new string[]{"<BR>"}, StringSplitOptions.None)[0] #> </td>
+    
+
+         
+         <#    
+            KeyValuePair<string, Dictionary<string,Dictionary<string, int>>> lastofprodhash = ProductsDrawGrandTotalsHash.Last();
+            KeyValuePair<string, Dictionary<string, int>> last = lastofprodhash.Value.Last();
+
+            int threecount = 0;
+         
+
+			    List<string> sortedKeyList2 =  outputsort.OrderKeysPPGFirst( new List<string> (ProductsDrawGrandTotalsHash.Keys));
+
+                        foreach(string key2 in sortedKeyList2)
+                        {
+                        Dictionary<string,Dictionary<string,int>> product2 = ProductsDrawGrandTotalsHash[key2];
+
+
+
+		    List<string> paperSectionSortedKeyList =  outputsort.OrderSectionKeysPPG( new List<string> (ProductsDrawGrandTotalsHash[key2].Keys));
+            
+			
+			foreach (string psKey in paperSectionSortedKeyList)
+			{
+			 Dictionary<string, int> papersection =  ProductsDrawGrandTotalsHash[key2][psKey];
+
+			threecount++;
+
+
+
+			if(altprod){
+			if(key2 != "PPG"){
+			#>
+
+
+      <td align="left" class="detail"><p><b><#= key2+"-"+ psKey #></b></p>
+      </td>
+      <td align="left" class="detail"><#=papersection["StandardBundleSize"]#></td>
+      <td align="left" class="detail"><#=papersection["Draw"]#></td>
+      <td align="left" class="detail"><#=papersection["Bundles"]#></td>
+      <td align="left" class="detail"><#=papersection["Odds"]#></td>
+
+
+
+
+      <# 
+      } else {
+      threecount--;
+      }
+      }
+
+
+      if(!altprod){
+      	#>
+
+
+      <td align="left" class="detail"><p><b><#= key2+"-"+psKey #></b></p>
+      </td>
+      <td align="left" class="detail"><#=papersection["StandardBundleSize"]#></td>
+      <td align="left" class="detail"><#=papersection["Draw"]#></td>
+      <td align="left" class="detail"><#=papersection["Bundles"]#></td>
+      <td align="left" class="detail"><#=papersection["Odds"]#></td>
+
+      	<# 
+      }
+
+
+      if(threecount==3)
+    { 
+
+    threecount=0; #>
+    </tr>
+    <tr><td class="detail" align="left"></td>
+ 
+    <# }#>
+      
+
+      <#    
+        }}
+
+
+        string drops;
+        	if(altprod){drops = TruckDictionary["AltTotalNumberOfDrops"];} else {
+        	drops = TruckDictionary["TotalNumberOfDrops"];
+        	}
+
+			#>
+         
+    </tr>
+    <tr>
+      <td class="detail" align="center">No. of Drops=<#= drops #></td>
+      <td align="center" colspan="16"></td>
+    </tr>
+      <tr>
+      <td align="center" colspan="18"><hr/></td>
+    </tr>
+
+    <#  }
+ #>
+
+
+     <#+ 
+public StringDictionary TruckDictionary {get; set; }
+    public Dictionary<string, Dictionary<string,Dictionary<string, int>>> ProductsDrawGrandTotalsHash {get; set;}
+    public bool altprod{get; set;}
+#>

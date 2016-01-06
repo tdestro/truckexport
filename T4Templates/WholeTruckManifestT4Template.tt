@@ -1,0 +1,736 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections.Specialized" #>
+<#@ import namespace="System.Collections" #>
+
+
+      <TR style="page-break-before: always;">
+      <TD><TABLE cellSpacing=0 cellPadding=0 width="100%">
+          <TBODY>
+            <TR>
+              <TD style="FONT-SIZE: 8pt" align=left><#= TruckDictionary["TruckID"].Insert(3,"-") #></TD>
+              <TD style="FONT-SIZE: 8pt" align=middle></TD>
+              <TD style="FONT-SIZE: 8pt" align=right></TD>
+            </TR>
+            <TR>
+              <TD colSpan=3><BR></TD>
+            </TR>
+          </TBODY>
+        </TABLE></TD>
+    </TR>
+    <TR>
+      <TD class=tripHead align=middle><#= TruckDictionary["TruckID"].Insert(3,"-") #></TD>
+    </TR>
+    <TR>
+      <TD class=tripSubHead align=middle>Truck <#= TruckDictionary["TruckName"] #></TD>
+    </TR>
+
+
+     <TR>
+      <TD class=tripInstruct align=middle><BR></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle>Post Gazette</TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle><BR></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle> <#= TruckDictionary["Title"] #> Manifest for <#= TruckDictionary["RunDate"] #></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle><BR></TD>
+    </TR>			
+    <TR>
+      <TD class=tripInstruct align=middle> <#= TruckDictionary["DeliveryArea"] #></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle> <#= TruckDictionary["GenInstructions"] #></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle> <#= TruckDictionary["SpecInstructions"] #></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle><i></i></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle><BR></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle>Total Number of Drops - <#= TruckDictionary["TotalNumberOfDrops"] #></TD>
+    </TR>
+    <TR>
+      <TD align=middle>
+
+
+      <TABLE borderColor=black cellSpacing=0 cellPadding=0 width="75%" 
+        border=2>
+          <TBODY>
+            <TR>
+              <TD><TABLE width="100%">
+                  <TBODY>
+
+                    <TR class=tripSumHead>
+                      <TD align=left>Products For Trip# <#= TruckDictionary["TruckID"].Insert(3,"-") #></TD>
+                      <TD align=right>Bundle Size</TD>
+                      <TD align=right>Draw</TD>
+                      <TD align=right>Bundles</TD>
+                      <TD align=right>Odds</TD>
+                    </TR>
+                 
+
+
+
+
+				  <#       
+
+
+             List<string> sortedKeyList3 =  outputsort.OrderKeysPPGFirst( new List<string> (DrawTotalsHashByProductTotals.Keys));
+			 List<string> sortedProductList1;
+                        foreach(string key in sortedKeyList3)
+                        {
+						sortedProductList1 =  outputsort.OrderKeysNumerical( new List<string> (DrawTotalsHashByProductTotals[key].Keys));
+
+                        foreach(string key2 in sortedProductList1)
+                        {
+						 TotalTypes entry = DrawTotalsHashByProductTotals[key][key2];
+			#>
+			
+                    <TR>
+                      <TD align=left><#=key#>-<#=key2#> <#=productdesc.translate(key2,TruckDictionary["title"])#></TD>
+                      <TD align=right><#=entry.StandardBundleSize#></TD>
+                      <TD align=right><#=entry.Draw#></TD>
+                      <TD align=right><#=entry.Bundles#></TD>
+                      <TD align=right><#=entry.Odds#></TD>
+                    </TR>
+        <# 
+    }
+
+    }
+    #>
+
+
+
+
+
+
+
+
+                  </TBODY>
+                </TABLE></TD>
+            </TR>
+          </TBODY>
+        </TABLE></TD>
+    </TR>
+    <TR>
+      <TD><TABLE>
+          <TBODY>
+            <TR>
+              <TD><BR></TD>
+            </TR>
+          </TBODY>
+        </TABLE></TD>
+    </TR>
+    <tr>
+    <td>
+      <table width="100%">
+        <tbody>
+        <tr class="tripSumHead">
+          <td width="3%" align="right">Seq</td>
+          <td width="10%" align="right">Route #</td>
+          <td width="32%" align="left">Address</td>
+          <td width="45%" align="left">
+            <table width="100%" cellspacing="0" celpadding="0">
+              <tbody>
+              <tr class="tripSumHead">
+                <td width="35%" align="left">Distribution For</td>
+                <td width="35%" align="right">Prod</td>
+                <td width="10%" align="right">Draw</td>
+                <td width="10%" align="right">Bundles</td>
+                <td width="10%" align="right">Odds</td></tr></tbody></table></td></tr>
+                <# 
+				
+				
+				
+				
+				 List<string> sortedSeqKeyList =  outputsort.OrderKeysNumericalSeq( new List<string> (DrawTotalsHashByProductNoRouteID.Keys));
+
+				 foreach(string seqkey in sortedSeqKeyList)
+                        {
+						Dictionary<string, Dictionary<string, TotalTypes>> rdd = DrawTotalsHashByProductNoRouteID[seqkey];
+               #>
+
+
+                  <tr class="drop pbinsideavoid">
+          <td width="3%" valign="top" align="right"><#= seqkey #></td>
+          <td width="10%" valign="top" align="right"><#  
+		   List<string> routeIDList = new List<string>();
+		   foreach (KeyValuePair<string,Dictionary<string, Dictionary<String,TotalTypes>>> routeidpair in DrawTotalsHashByProduct[seqkey]) {
+                 	routeIDList.Add(routeidpair.Key);
+					string rid = "";
+                 	if (routeidpair.Key.Length == 8) {
+                 	rid = routeidpair.Key.Insert (4, "-");
+					} else {
+					rid = routeidpair.Key;
+					}
+					
+
+                #>
+
+
+                <#= rid #></br>
+
+
+                 <# 
+                } #></td>
+
+                 <#
+                List<string> addressList = new List<string>();
+                List<string> routeList = new List<string>();
+                 foreach (KeyValuePair<string, Dictionary<string, TotalTypes>> product in rdd) 
+                 { 
+                  foreach (KeyValuePair<string, TotalTypes> papersection in product.Value) 
+                  { 
+                   if (papersection.Value.Address.Length > 1) addressList.Add(papersection.Value.Address);
+                   if (papersection.Value.RouteType.Length > 1)  routeList.Add(papersection.Value.RouteType);
+                   }
+                 }
+               List<string> distinctAdddressList = addressList.Distinct().ToList();
+               List<string> distinctRouteList = routeList.Distinct().ToList();
+              var address =  string.Join("<br/><br/>", distinctAdddressList.ToArray());
+              var route =  string.Join(",", distinctRouteList.ToArray()) ;
+            
+                #>
+
+
+          <td width="32%" valign="top" align="left">
+            <table cellspacing="0" cellpadding="0" class="drop">
+              <tbody>
+              <tr>
+                <td><b></b></td></tr>
+              <tr>
+                <td><#= address #></</td></tr>
+              <tr>
+                <td></td></tr>
+              <tr>
+                <td></td></tr>
+              <tr>
+                <td></td></tr>
+              <tr>
+                <td></td></tr></tbody></table></td>
+          <td width="50%" valign="top" align="left">
+            <table width="100%" cellspacing="0" celpadding="0" class="drop">
+              <tbody>
+              <#
+
+
+
+
+                
+                List<string> sortedKeyList =  outputsort.OrderKeysPPGFirst( new List<string> (rdd.Keys));
+
+                        foreach(string key in sortedKeyList)
+                        {
+                        Dictionary<string,TotalTypes> product = rdd[key];
+ 
+              foreach (KeyValuePair<string, TotalTypes> papersection in product) { 
+                #>
+              <tr><!--<#= papersection.Value.numberinlist #>-->
+                <td width="35%"align="left" class="dropProd"><#= toDistributionFor(key,papersection.Key)#></td>
+                <td width="35%"align="right"><#= key+"-"+papersection.Key #></td>
+                <td width="10%"align="right"><#= papersection.Value.Draw #></td>
+                <td width="10%"align="right"><#= papersection.Value.Bundles #></td>
+                <td width="10%" align="right"><#= papersection.Value.Odds #></td>
+               </tr>
+                <# } } #>
+
+				                </tbody></table></td></tr>
+            
+        <tr class="drop">
+          <td colspan="4">
+            <hr>
+          </td></tr><# } #></tbody></table>
+           
+
+
+           <# 
+           // Check if coin boxes are in this truck.
+           Boolean coinbox = false;
+           foreach (KeyValuePair<string, Dictionary<string,Dictionary<string, TotalTypes>>> rdd in DrawTotalsHashByProductNoRouteID) { 
+           foreach (KeyValuePair<string,Dictionary<string,TotalTypes>> product in rdd.Value) { 
+           foreach (KeyValuePair<string,TotalTypes> papersections in product.Value) { 
+             if (papersections.Value.RouteType=="RACK"){
+                coinbox=true; 
+                break;
+                }
+               } 
+               if (coinbox) break;
+           }
+               if (coinbox) break;
+           }
+
+               if(coinbox){
+                #>
+
+          <table width="100%">
+        <tbody>
+<tr class="dtopTotHead">
+        <td align="middle" width="100%" colspan=4>Coin Box Drop Summary</td>
+        </tr>
+
+        <tr class="tripSumHead">
+          <td width="3%" align="right">Seq</td>
+          <td width="10%" align="right">Route #</td>
+          <td width="32%" align="left">Address</td>
+          <td width="45%" align="left">
+            <table width="100%" cellspacing="0" celpadding="0">
+              <tbody>
+              <tr class="tripSumHead">
+                <td width="35%" align="left">Distribution For</td>
+                <td width="35%" align="right">Prod</td>
+                <td width="10%" align="right">Draw</td>
+                <td width="10%" align="right">Bundles</td>
+                <td width="10%" align="right">Odds</td></tr></tbody></table></td></tr>
+                <# foreach (KeyValuePair<string, Dictionary<string,Dictionary<string,TotalTypes>>> rdd in DrawTotalsHashByProductNoRouteID) { 
+
+                // Is this a coinbox ?
+
+                  List<string> sortedKeyList =  outputsort.OrderKeysPPGFirst( new List<string> (rdd.Value.Keys));
+
+                        foreach(string key in sortedKeyList)
+                        {
+                        Dictionary<string,TotalTypes> product = rdd.Value[key];
+ 
+               foreach (KeyValuePair<string,TotalTypes> papersections in product) { 
+               if (papersections.Value.RouteType == "RACK"){
+                #>
+                  <tr class="drop pbinsideavoid">
+          <td width="3%" valign="top" align="right"><#= rdd.Key #></td>
+          <td width="10%" valign="top" align="right"><#   foreach (KeyValuePair<string,Dictionary<string,Dictionary<String,TotalTypes>>> routeidpair in DrawTotalsHashByProduct[rdd.Key]) {
+                 	string rid = "";
+                 	if (routeidpair.Key.Length == 8) {
+                 	rid = routeidpair.Key.Insert (4, "-");
+					} else {
+					rid = routeidpair.Key;
+					}
+                #>
+
+
+                <#= rid #></br>
+
+
+                 <# 
+                } #>
+                </td>
+
+                 <#
+                List<string> addressList = new List<string>();
+                List<string> routeList = new List<string>();
+                   List<string> sortedKeyList1 =  outputsort.OrderKeysPPGFirst( new List<string> (rdd.Value.Keys));
+
+                        foreach(string key1 in sortedKeyList1)
+                        {
+                        Dictionary<string,TotalTypes> product1 = rdd.Value[key1];
+ 
+                  foreach (KeyValuePair<string, TotalTypes> papersection1 in product1) 
+                  { 
+                   if (papersection1.Value.Address.Length > 1) addressList.Add(papersection1.Value.Address);
+                   if (papersection1.Value.RouteType.Length > 1)  routeList.Add(papersection1.Value.RouteType);
+                   }
+                 }
+               List<string> distinctAdddressList = addressList.Distinct().ToList();
+               List<string> distinctRouteList = routeList.Distinct().ToList();
+              var address =  string.Join("<br/><br/>", distinctAdddressList.ToArray());
+              var route =  string.Join(",", distinctRouteList.ToArray()) ;
+            
+                #>
+
+          <td width="32%" valign="top" align="left">
+            <table cellspacing="0" cellpadding="0" class="drop">
+              <tbody>
+              <tr>
+                <td><b></b></td></tr>
+              <tr>
+                <td><#=  address #></</td></tr>
+              <tr>
+                <td></td></tr>
+              <tr>
+                <td></td></tr>
+              <tr>
+                <td></td></tr>
+              <tr>
+                <td></td></tr></tbody></table></td>
+          <td width="50%" valign="top" align="left">
+            <table width="100%" cellspacing="0" celpadding="0" class="drop">
+              <tbody>
+
+   
+
+                    <# 
+                     
+                        sortedKeyList1 =  outputsort.OrderKeysPPGFirst( new List<string> (rdd.Value.Keys));
+
+                        foreach(string key1 in sortedKeyList1)
+                        {
+                        Dictionary<string,TotalTypes> product1 = rdd.Value[key1];
+
+               foreach (KeyValuePair<string,TotalTypes> papersection1 in product1) { 
+               #>
+              <tr>
+              <td width="35%" align="left" class="dropProd"><#= toDistributionFor(key1,papersection1.Key)#></td>
+                <td width="35%" align="right"><#= key1+"-"+papersection1.Key #></td>
+                <td width="10%" align="right"><#= papersection1.Value.Draw #></td>
+                <td width="10%" align="right"><#= papersection1.Value.Bundles #></td>
+                <td width="10%" align="right"><#= papersection1.Value.Odds #></td>
+                <# } 
+
+                }#>
+
+
+
+
+                        </tbody></table></td></tr>
+            
+        <tr class="drop">
+          <td colspan="4">
+            <hr>
+          </td></tr>
+
+
+
+                <#
+                }
+                }
+                } 
+                #>
+
+
+       
+
+            <# } #>
+            </tbody></table>
+         <# }
+           #>
+       
+
+
+
+
+
+
+          </td></tr>
+
+
+
+            <# 
+			// todo: 501-518 remove bundle tops from them on daily
+            // 751-768 sunday three star
+            // saturday advance 201 remove bundle tops
+			Int32 shortruckid = Int32.Parse(TruckDictionary["TruckID"].Substring(0, 3));
+			//if(!TruckDictionary["RunDate"].Contains("Sunday") && !(shortruckid >= 501 && shortruckid <= 518)){
+			List<string> sPList =  outputsort.OrderKeysNumericalSeq( new List<string> (DrawTotalsHashByProductNoRouteID.Keys));
+                        foreach(string nextkey in sPList)
+                        {
+						 Dictionary<string, Dictionary<string, TotalTypes>> rdd = DrawTotalsHashByProductNoRouteID[nextkey];
+			
+			//foreach (KeyValuePair<string, Dictionary<string, Dictionary<string, TotalTypes>>> rdd in DrawTotalsHashByProductNoRouteID) { 
+               
+			   
+			    #>
+          <tr style="page-break-before: always;">
+    <td>
+      <table width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+        <tr>
+          <td align="left" style="FONT-SIZE: 8pt"><#= TruckDictionary["TruckID"].Insert(3,"-") #></td>
+          <td align="center" style="FONT-SIZE: 8pt"></td>
+          <td align="right" style="FONT-SIZE: 8pt">Key Page: </td></tr>
+        <tr>
+          <td colspan="3"><br></td></tr></tbody></table></td></tr>
+
+
+
+
+          <tr>
+    <td>
+      <table width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+        <tr> 
+          <td width="33%" align="left" class="tripSubHead">KEY <#= TruckDictionary["TruckID"].Insert(3,"-") #></td>
+          <td width="33%" align="center" class="tripSubHead">TRUCK <#= TruckDictionary["TruckName"] #></td>
+          <td align="right" class="TripSubHead">Post Gazette</td></tr>
+        <tr>
+          <td></td>
+          <td align="right" colspan="2" class="tripSubHead"> <#= TruckDictionary["RunDate"] #></td></tr></tbody></table>
+      <table width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+        <tr class="dropTot">
+          <td><br></td></tr>
+        <tr class="dropTotHead">
+          <td width="15%" valign="top" align="left"><b>Trip</b></td>
+          <td width="20%" valign="top" align="left"><b>Sequence</b></td>
+          <td width="15%" valign="top" align="left"><b>Route #</b></td>
+          <td width="50%" valign="top" align="left"><b>Drop Address</b></td></tr>
+        <tr class="dropTot">
+          <td valign="top" align="left" class="dropTot"><#= TruckDictionary["TruckID"].Insert(3,"-") #></td>
+          <td valign="top" align="left" class="dropTot"><#= nextkey #></td>
+                           
+
+
+          <td valign="top" align="left" class="dropTot"><#   foreach (KeyValuePair<string,Dictionary<string,Dictionary<String,TotalTypes>>> routeidpair in DrawTotalsHashByProduct[nextkey]) {
+                 	string rid = "";
+                 	if (routeidpair.Key.Length == 8) {
+                 	rid = routeidpair.Key.Insert (4, "-");
+					} else {
+					rid = routeidpair.Key;
+					}
+                #>
+
+
+                <#= rid #></br>
+
+
+                 <# 
+                } #></td>
+
+                 <#
+
+                List<string> nameList = new List<string>();
+                List<string> addressList = new List<string>();
+                List<string> routeList = new List<string>();
+                 foreach (KeyValuePair<string, Dictionary<string, TotalTypes>> product in rdd) 
+                 { 
+                  foreach (KeyValuePair<string, TotalTypes> papersection in product.Value) 
+                  { 
+                   if (papersection.Value.Name.Length > 1) nameList.Add(papersection.Value.Name);
+                   if (papersection.Value.Address.Length > 1) addressList.Add(papersection.Value.Address);
+                   if (papersection.Value.RouteType.Length > 1)  routeList.Add(papersection.Value.RouteType);
+                   }
+                 }
+               List<string> distinctAdddressList = addressList.Distinct().ToList();
+               List<string> distinctRouteList = routeList.Distinct().ToList();
+               List<string> distinctNameList = nameList.Distinct().ToList();
+              var address =  string.Join("<br/><br/>", distinctAdddressList.ToArray());
+              var route =  string.Join(",", distinctRouteList.ToArray()) ;
+              var name =  string.Join(",", distinctNameList.ToArray()) ;
+            
+                #>
+
+
+          <td valign="top" align="left" class="dropTot"></td></tr>
+
+        <tr class="dropTot">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="font-size: 150%; border-style: solid; border-width: 1px;"> <#=  address #></td></tr>
+        <tr class="dropTot">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td></tr>
+        <tr class="dropTot">
+          <td><br></td></tr></tbody></table>
+
+         
+
+
+<TABLE width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+  <tr class="drop">
+    <td align="left" valign="top"><B>Customer</B></td>
+    <td align="left" valign="top">
+  <table width="100%" cellspacing="0" cellpadding="0">
+    <tbody>
+      <tr>
+        <td width="50%" align="right" class="drop"><b>District-Route</b></td>
+        <td width="30%" align="right" class="drop"><b>Prod</b></td>
+        <td width="20%" align="right" class="drop"><b>Draw</b></td>
+      </tr>
+    </tbody>
+  </table>
+  </td>
+  </tr>  
+
+  <tr class="drop">
+    <td width="40%" align="left" valign="top"><#=name#><br/><#= address #></td>
+    <td width="60%" align="left" valign="top">
+
+
+
+
+
+
+
+    <table width="100%" cellspacing="0" cellpadding="0">
+      <tbody>
+
+       <#   foreach (KeyValuePair<string,Dictionary<string,Dictionary<String,TotalTypes>>> routeidpair in DrawTotalsHashByProduct[nextkey]) {
+                 	string rid = "";
+                 	if (routeidpair.Key.Length == 8) {
+                 	rid = routeidpair.Key.Insert (4, "-");
+					} else {
+					rid = routeidpair.Key;
+					}
+                #>
+      <tr>
+          <td width="50%" align="right" class="drop"> <#= rid #></td>
+          <td width="30%" align="right" class="drop"></td>
+          <td width="20%" align="right" class="drop"></td>
+        </tr>
+
+       <#   
+         List<string> sortedKeyList =  outputsort.OrderKeysPPGFirst( new List<string> (routeidpair.Value.Keys));
+
+                        foreach(string key in sortedKeyList)
+                        {
+                        Dictionary<string,TotalTypes> productpair = routeidpair.Value[key];
+ 
+                 
+       foreach (KeyValuePair<string,TotalTypes> papersectionpair in productpair) { 
+                #>
+        <tr>
+          <td width="50%" align="right" class="drop"></td>
+          <td width="30%" align="right" class="drop"><#=  key #>-<#=papersectionpair.Key #></td>
+          <td width="20%" align="right" class="drop"><#=  papersectionpair.Value.Draw #></td>
+        </tr>
+          <#
+           }
+           }
+		   }
+            #>
+	
+	
+      </tbody>
+    </table>
+	
+	
+	
+	</td>
+  </tr>
+</tbody>
+</TABLE>
+
+
+          </td></tr>
+
+		
+
+
+          <tr>
+    <td align="left">
+      <table width="100%">
+        <tbody>
+        <tr>
+          <td class="dropTotHead">Delivery Instructions:</td>
+        </tr><tr>
+        </tr>   <# foreach (KeyValuePair<string, Dictionary<string,TotalTypes>> product in rdd) { 
+                   foreach (KeyValuePair<string,TotalTypes> papersection in product.Value) { 
+               #>
+     <tr>
+          <td align="left" class="dropTot"><#=   papersection.Value.Instructions #></td> 
+          <# break;
+           } 
+           break;
+           }#>
+         </tr>
+        <tr>
+          <td align="left" class="dropTot"></td></tr>
+        <tr>
+          <td align="left" class="dropTot"></td></tr>
+        <tr>
+          <td align="left" class="dropTot"></td></tr>
+        <tr>
+          <td align="left" class="dropTot"></td></tr>
+        <tr>
+          <td align="left" class="dropTot"></td></tr></tbody></table></td></tr>
+          <tr>
+    <td><br></td></tr>
+<tr>
+    <td align="left">
+      <table width="100%" cellspacing="0" cellpadding="0" bordercolor="black" border="2">
+        <tbody>
+        <tr>
+          <td>
+            <table width="100%" cellspacing="0" cellpadding="0">
+              <tbody>
+              <tr class="dropTotHead">
+                <td width="45%" align="left">Product</td>
+                <td width="10%" align="right">Bundle Size</td>
+                <td width="10%" align="right">Draw</td>
+                <td width="20%" align="right"></td>
+                <td width="15%" align="right"></td></tr>
+               
+                 <#
+                   List<string> sortedKeyList2 =  outputsort.OrderKeysPPGFirst( new List<string> (rdd.Keys));
+
+                        foreach(string key2 in sortedKeyList2)
+                        {
+                        Dictionary<string,TotalTypes> product2 = rdd[key2];
+
+                    
+                  foreach (KeyValuePair<string,TotalTypes> papersection in product2) { 
+               #>
+     
+              <tr>
+                <td align="left" class="dropTot" style="font-size: 150%;"> <#= key2+"-"+papersection.Key #></td>
+                <td align="right" class="dropTot" style="font-size: 150%;"> <#= papersection.Value.StandardBundleSize #></td>
+                <td align="right" class="dropTotAttn" style="font-size: 150%;"> <#=  papersection.Value.Draw #></td>
+                <td align="right" class="dropTotAttn" style="font-size: 150%;"> <#=  papersection.Value.Bundles #> bundles</td>
+                <td align="right" class="dropTotAttn" style="font-size: 150%;"><#=  papersection.Value.Odds #> 
+          odds</td></tr>
+
+          <#  } }#>
+
+          </tbody></table></td></tr></tbody></table></td></tr>
+<tr>
+    <td align="center" class="drop"><br></td></tr>
+<tr>
+    <td align="center" class="drop">For Shortages, Billing, and Delivery questions 
+      please call - 412-263-1160</td></tr>
+      <tr>
+    <td align="center" class="drop">When contacting us please provide your 
+      District and Route number that is located on the top left of this 
+  page.</td></tr>
+          <# } 
+		  
+		  
+		  #>
+
+
+
+
+
+
+
+
+     
+
+
+
+
+  <#+ 
+
+  string toDistributionFor(string product, string productnumber){
+  if(product == "PPG" && (productnumber =="200" || productnumber =="none")){
+  return "5-Day Regular/Late Run";
+  } else return "";
+
+
+
+  }
+public StringDictionary TruckDictionary {get; set; }
+public Dictionary<string, Dictionary<string, Dictionary<string,TotalTypes>>> DrawTotalsHashByProductNoRouteID  {get; set; }
+public Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, TotalTypes>>>> DrawTotalsHashByProduct  {get; set; }
+public Dictionary <string, Dictionary<string, TotalTypes>> DrawTotalsHashByProductTotals {get; set; }
+public List<Hashtable> productTotals {get; set;}
+public Dictionary<string, TotalTypes> ProductsDrawTotalsHash {get; set;}
+public Dictionary<string, TotalTypes> ProductsD1DrawTotalsHash {get; set;}
+
+#>

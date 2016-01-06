@@ -1,0 +1,18 @@
+C:\Users\tony\documents\visual studio 2013\Projects\truck_manifest\truck_manifest\bin\truck_manifest.dll.config
+C:\Users\tony\documents\visual studio 2013\Projects\truck_manifest\truck_manifest\bin\truck_manifest.dll
+C:\Users\tony\documents\visual studio 2013\Projects\truck_manifest\truck_manifest\bin\truck_manifest.pdb
+C:\Users\tony\documents\visual studio 2013\Projects\truck_manifest\truck_manifest\bin\FileHelpers.dll
+C:\Users\tony\documents\visual studio 2013\Projects\truck_manifest\truck_manifest\bin\FileHelpers.xml
+C:\Users\tony\documents\visual studio 2013\Projects\truck_manifest\truck_manifest\obj\Debug\truck_manifest.dll
+C:\Users\tony\documents\visual studio 2013\Projects\truck_manifest\truck_manifest\obj\Debug\truck_manifest.pdb
+C:\Users\tony\documents\visual studio 2013\Projects\truck_manifest\truck_manifest\obj\Debug\truck_manifest.csprojResolveAssemblyReference.cache
+C:\Users\IEUser\Desktop\truckexport\bin\truck_manifest.dll.config
+C:\Users\IEUser\Desktop\truckexport\bin\truck_manifest.dll
+C:\Users\IEUser\Desktop\truckexport\bin\truck_manifest.pdb
+C:\Users\IEUser\Desktop\truckexport\bin\FileHelpers.dll
+C:\Users\IEUser\Desktop\truckexport\bin\FileHelpers.xml
+C:\Users\IEUser\Desktop\truckexport\obj\Debug\Interop.ADODB.dll
+C:\Users\IEUser\Desktop\truckexport\obj\Debug\truck_manifest.csproj.ResolveComReference.cache
+C:\Users\IEUser\Desktop\truckexport\obj\Debug\truck_manifest.dll
+C:\Users\IEUser\Desktop\truckexport\obj\Debug\truck_manifest.pdb
+C:\Users\IEUser\Desktop\truckexport\obj\Debug\truck_manifest.csprojResolveAssemblyReference.cache

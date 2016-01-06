@@ -1,0 +1,43 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<html><head> <title>Pallet Sheet</title><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><style type="text/css">
+TR.mainhead
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 40pt;
+    COLOR: black;
+    FONT-FAMILY: Arial;
+    BACKGROUND-COLOR: transparent
+}
+TR.genhead
+{
+    FONT-SIZE: 25pt;
+    COLOR: black;
+    FONT-FAMILY: Arial;
+    BACKGROUND-COLOR: transparent
+}
+TR.adhead
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 50pt;
+    COLOR: black;
+    FONT-FAMILY: Arial;
+    BACKGROUND-COLOR: transparent
+}
+</style>
+   
+</head>
+<body bgcolor="#ffffff">
+
+    <#= report #>
+
+
+</body></html>
+     <#+ 
+public string report {get; set; }
+
+#>

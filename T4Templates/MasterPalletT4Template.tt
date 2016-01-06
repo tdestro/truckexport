@@ -1,0 +1,113 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections.Specialized" #>
+<#@ import namespace="System.Collections" #>
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head> <title>Pallet</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style type="text/css">
+.mainheader {
+	FONT-FAMILY: Arial;
+	FONT-SIZE: 10pt;
+	FONT-WEIGHT: Bold;
+	background-color: LightGrey;
+}
+.header {
+	FONT-FAMILY: Arial;
+	FONT-SIZE: 8pt;
+	FONT-WEIGHT: Bold;
+	background-color: LightGrey;
+}
+.detail {
+	FONT-FAMILY: Arial;
+	FONT-SIZE: 8pt;    
+}
+</style>
+</head>
+<body>
+<table width="100%" cellspacing="0" cellpadding="0">
+  <tbody>
+    <#= report #>
+
+    <tr style="page-break-before:always;">
+<td colspan="3" class="mainheader"><#=  MasterTruckDictionary["RunDate"] #> -  <#=  MasterTruckDictionary["title"] #></td>
+<td colspan="6" class="mainheader">Post Gazette Pallet Report</td>
+<td colspan="3" class="mainheader" align="right"></td>
+</tr>
+<tr>
+<td colspan="3" class="header">Created: <#= DateTime.Now.ToShortDateString()+" "+ DateTime.Now.ToLongTimeString() #></td>
+<td colspan="6" class="header"></td>
+<td colspan="3" class="header" align="right">Pallet Size: 60</td>
+</tr>
+<tr>
+<td colspan="10">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tbody><tr class="header">
+<td align="right">Prod #</td>
+<td align="right">Bundle Size</td>
+<td align="right">HD Papers</td>
+<td align="right">SC Papers</td>
+<td align="right">Total Papers</td>
+<td align="right">Total Bundles</td>
+<td align="right">Full</td>
+<td align="right">Part</td>
+<td align="right">Part Bundles</td>
+<td align="right">Odds</td>
+<td align="right">Pallets</td>
+</tr>
+
+
+
+
+     <#       
+	 bool color = false;
+	 if  (MasterTruckDictionary["title"].Contains("Color")) color = true;
+	 
+	 
+	 
+	 foreach (KeyValuePair<string, Dictionary<string, Dictionary<string, int>>> product in ProductsMasterTotalsHash) {
+              foreach (KeyValuePair<string, Dictionary<string, int>> entry in product.Value)
+			{
+
+
+
+
+			if( (product.Key=="PPG" && color) || (product.Key=="PPG" && entry.Key.Length == 3 && entry.Key[2] == '0')  ){
+			 #>
+<tr class="header"><td colspan="11"><hr>
+</td></tr><tr class="detail">
+<td align="right" width="10%"><#= product.Key #>-<#= entry.Key #></td>
+<td align="right" width="9%"><#=entry.Value["StandardBundleSize"]#></td>
+<td align="right" width="9%"><#=entry.Value["HomeDeliveryDraw"]#></td>
+<td align="right" width="9%"><#=entry.Value["SingleCopyDraw"]#></td>
+<td align="right" width="9%"><#=entry.Value["Draw"]#></td>
+<td align="right" width="9%"><#=entry.Value["Bundles"]#></td>
+<td align="right" width="9%"><#=entry.Value["FullPallets"]#></td>
+<td align="right" width="9%"><#=entry.Value["OddPalletCount"]#></td>
+<td align="right" width="9%"><#=entry.Value["OddPalletContains"]#></td>
+<td align="right" width="9%"><#=entry.Value["Odds"]#></td>
+<td align="right" width="9%"><#=entry.Value["Pallets"]#></td>
+</tr>
+			    <#  }
+
+			    }
+			    }
+			 #>
+
+  </tbody>
+</table>
+</body>
+</html>    
+  <#+ 
+public string report {get; set; }
+public StringDictionary MasterTruckDictionary {get; set; }
+public Dictionary<string, Dictionary<string, Dictionary<string, int>>> ProductsMasterTotalsHash {get; set;}
+
+#>

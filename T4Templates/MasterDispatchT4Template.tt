@@ -1,0 +1,179 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Dispatch</title>
+<style type="text/css">
+.detail {	FONT-FAMILY: Arial;
+	FONT-SIZE: 8pt;
+	padding-left:4px;
+	padding-right:4px;
+}
+.header {	FONT-FAMILY: Arial;
+	FONT-SIZE: 8pt;
+	padding-left:4px;
+	padding-right:4px;
+
+	background-color: #cccccc;
+}
+</style>
+
+</head>
+<body>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    <#= report #>
+
+<tr>
+    <td class="detail" align="left"><b><br /></b></td>
+</tr><tr><td class="detail" align="center"><b>Inserting Results for Completes</b></td>
+</tr><tr><td class="detail" align="left"><hr /></td>
+</tr><tr><td class="detail" align="left"><b><br /></b></td>
+</tr><tr><td class="detail" align="center"><b>Product Summary</b></td>
+</tr><tr><td class="detail" align="left"><hr /></td>
+
+         <#   
+           foreach (KeyValuePair<string, Dictionary<string, Dictionary<string, int>>> product in ProductsMasterTotalsHash){
+           if(altprod && product.Key == "PPG") {
+           continue;
+           }
+
+
+             foreach (KeyValuePair<string, Dictionary<string, int>> entry in product.Value)
+			{ #>
+			<!--</tr><tr><td class="detail" align="left"><#= product.Key #>-<#= entry.Key #></td><td class="detail" align="left"><#= entry.Key #>-<#= entry.Value["StandardBundleSize"] #></td><td class="detail" align="right"><#= entry.Value["Draw"] #></td><td class="detail" align="right"><#= entry.Value["Bundles"]  #></td><td class="detail" align="right"><#= entry.Value["Odds"]  #></td>
+<td class="detail" align="right">No. of Trips/Divs <#=  entry.Value["NumberOfDrops"] #> </td> -->
+         <# 
+			if (entry.Value["SingleCopyDraw"] > 0){
+			 #>
+
+</tr><tr><td class="detail" align="left"><#= product.Key #>-<#= entry.Key #> SC</td><td class="detail" align="left"><#= entry.Key #>-<#= entry.Value["StandardBundleSize"] #></td><td class="detail" align="right"><#= entry.Value["SingleCopyDraw"] #></td><td class="detail" align="right"><#= entry.Value["SingleCopyBundles"]  #></td><td class="detail" align="right"><#= entry.Value["SingleCopyOdds"]  #></td>
+<td class="detail" align="right">No. of Trips/Divs <#=  entry.Value["SingleCopyNumberOfDrops"] #> </td>
+			       <# 
+
+			    } 
+
+			    if (entry.Value["HomeDeliveryDraw"] > 0){
+			 #>
+</tr><tr><td class="detail" align="left"><#= product.Key #>-<#= entry.Key #> HD</td><td class="detail" align="left"><#= entry.Key #>-<#= entry.Value["StandardBundleSize"] #></td><td class="detail" align="right"><#= entry.Value["HomeDeliveryDraw"] #></td><td class="detail" align="right"><#= entry.Value["HomeDeliveryBundles"]  #></td><td class="detail" align="right"><#= entry.Value["HomeDeliveryOdds"]  #></td>
+<td class="detail" align="right">No. of Trips/Divs <#= entry.Value["HomeDeliveryNumberOfDrops"] #>  </td>
+
+
+
+
+
+			    <# 
+			    }
+			    }
+
+			    }
+			 #>
+
+
+
+
+
+
+			 </tr><tr><td class="detail" align="left"><b><br /></b></td>
+</tr><tr><td class="detail" align="center"><b>Depot Trip Summary</b></td>
+</tr><tr><td class="detail" align="left"><hr /></td>
+
+
+			 			     <#      
+					
+
+
+
+
+			 			      foreach (KeyValuePair<string, Dictionary<string, Dictionary<string, int>>> product in ProductsMasterTotalsHash){
+			 			       if(altprod && product.Key == "PPG") {
+           continue;
+           }
+             foreach (KeyValuePair<string, Dictionary<string, int>> entry in product.Value){
+
+
+
+              #>
+
+         <# 
+			if (entry.Value["SingleCopyDrawDepot"] > 0){
+			 #>
+
+</tr><tr><td class="detail" align="left"><#= product.Key #>-<#= entry.Key #> SC</td><td class="detail" align="left"><#= entry.Key #>-<#= entry.Value["StandardBundleSize"] #></td><td class="detail" align="right"><#= entry.Value["SingleCopyDrawDepot"] #></td><td class="detail" align="right"><#= entry.Value["SingleCopyBundlesDepot"]  #></td><td class="detail" align="right"><#= entry.Value["SingleCopyOddsDepot"]  #></td>
+<td class="detail" align="right">No. of Trips/Divs <#=  entry.Value["SingleCopyNumberOfDropsDepot"] #> </td>
+			       <# 
+
+			    } 
+
+			    if (entry.Value["HomeDeliveryDrawDepot"] > 0){
+			 #>
+</tr><tr><td class="detail" align="left"><#= product.Key #>-<#= entry.Key #> HD</td><td class="detail" align="left"><#= entry.Key #>-<#= entry.Value["StandardBundleSize"] #></td><td class="detail" align="right"><#= entry.Value["HomeDeliveryDrawDepot"] #></td><td class="detail" align="right"><#= entry.Value["HomeDeliveryBundlesDepot"]  #></td><td class="detail" align="right"><#= entry.Value["HomeDeliveryOddsDepot"]  #></td>
+<td class="detail" align="right">No. of Trips/Divs <#= entry.Value["HomeDeliveryNumberOfDropsDepot"] #>  </td>
+
+
+
+
+
+			    <# 
+			    }
+			    }
+			    }
+			 #>
+
+
+			  </tr><tr><td class="detail" align="left"><b><br /></b></td>
+</tr><tr><td class="detail" align="center"><b>Bulk Trip Summary</b></td>
+</tr><tr><td class="detail" align="left"><hr /></td>
+
+
+			 			     <#                  foreach (KeyValuePair<string, Dictionary<string, Dictionary<string, int>>> product in ProductsMasterTotalsHash){
+
+			 			      if(altprod && product.Key == "PPG") {
+           continue;
+           }
+             foreach (KeyValuePair<string, Dictionary<string, int>> entry in product.Value)			{ #>
+
+         <# 
+			if (entry.Value["SingleCopyDrawBulk"] > 0){
+			 #>
+
+</tr><tr><td class="detail" align="left"><#= product.Key #>-<#= entry.Key #> SC</td><td class="detail" align="left"><#= entry.Key #>-<#= entry.Value["StandardBundleSize"] #></td><td class="detail" align="right"><#= entry.Value["SingleCopyDrawBulk"] #></td><td class="detail" align="right"><#= entry.Value["SingleCopyBundlesBulk"]  #></td><td class="detail" align="right"><#= entry.Value["SingleCopyOddsBulk"]  #></td>
+<td class="detail" align="right">No. of Trips/Divs <#=  entry.Value["SingleCopyNumberOfDropsBulk"] #> </td>
+			       <# 
+
+			    } 
+
+			    if (entry.Value["HomeDeliveryDrawBulk"] > 0){
+			 #>
+</tr><tr><td class="detail" align="left"><#= product.Key #>-<#= entry.Key #> HD</td><td class="detail" align="left"><#= entry.Key #>-<#= entry.Value["StandardBundleSize"] #></td><td class="detail" align="right"><#= entry.Value["HomeDeliveryDrawBulk"] #></td><td class="detail" align="right"><#= entry.Value["HomeDeliveryBundlesBulk"]  #></td><td class="detail" align="right"><#= entry.Value["HomeDeliveryOddsBulk"]  #></td>
+<td class="detail" align="right">No. of Trips/Divs <#= entry.Value["HomeDeliveryNumberOfDropsBulk"] #>  </td>
+
+
+
+
+
+			    <# 
+			    }
+			    }
+			    }
+			 #>
+			 </tr>
+
+
+    </tbody>
+</table>
+</body>
+</html>
+     <#+ 
+     public Dictionary<string, Dictionary<string, Dictionary<string, int>>> ProductsMasterTotalsHash {get; set;}
+
+public string report {get; set; }
+     public bool altprod{get; set;}
+#>

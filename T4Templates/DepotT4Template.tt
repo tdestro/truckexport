@@ -1,0 +1,75 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections.Specialized" #>
+<#@ import namespace="System.Collections" #>
+
+<tr>
+      <td colspan="16" class="mainheader">Depot Grand Totals For: <#= TruckDictionary["ShortTruckID"] #>, Truck  <#= TruckDictionary["TruckName"] #> - <#= TruckDictionary["RunDate"] #></td>
+</tr>
+ <#     var sortedDepotGrandTotalsKeys = from key in ProductsDrawGrandTotalsDepotHash.Keys
+                        orderby key ascending
+                        select key;
+
+foreach(string key in sortedDepotGrandTotalsKeys)
+{
+
+                        if(key != "90"){
+
+     var depot = ProductsDrawGrandTotalsDepotHash[key];
+                       
+  #>
+
+    <tr>
+      <td colspan="16" class="mainheader">Depot: <#= key #></td>
+    </tr>
+     <tr >
+      <td align="right" width="20%">Product #</td>
+      <td align="right" width="20%">Bundle Size</td>
+      <td align="right" width="20%">Draw</td>
+    </tr>
+
+    <# 
+
+        List<string> sortedKeyList =  outputsort.OrderKeysPPGFirst( new List<string> (depot.Keys));
+
+
+                     foreach(string key1 in sortedKeyList)
+                        {
+                        Dictionary<string,Dictionary<string,int>> product = depot[key1];
+
+
+ foreach (KeyValuePair<string, Dictionary<string, int>> papersection in product)
+		   {
+ 
+
+			  #>
+ 
+
+
+
+			 <tr >
+      <td align="right" width="20%"><#= key1#>-<#= papersection.Key#></td>
+      <td align="right" width="20%"><#= papersection.Value["StandardBundleSize"]#></td>
+      <td align="right" width="20%"><#= papersection.Value["Draw"]#></td>
+    </tr>
+
+
+ <#
+ }
+ }#>
+ <tr>
+ <td colspan="6">
+ <hr/>
+ </td>
+ </tr><#
+ }
+ }
+  #>
+
+<#+ 
+public StringDictionary TruckDictionary {get; set; }
+public Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, int>>>> ProductsDrawGrandTotalsDepotHash {get; set;}
+#>

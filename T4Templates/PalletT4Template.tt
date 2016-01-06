@@ -1,0 +1,91 @@
+﻿<#@ template language="C#"#>
+<#@ assembly name="System.Core"#>
+<#@ import namespace="System.Linq"#>
+<#@ import namespace="System.Text"#>
+<#@ import namespace="System.Collections.Generic"#>
+<#@ import namespace="System.Collections.Specialized"#>
+<#@ import namespace="System.Collections"#>
+
+
+    <#    if(TruckDictionary["UseHeader"] == "True"){ #>
+  <tr style="page-break-before:always;">
+      <td colspan="3" class="mainheader"><#=  TruckDictionary["RunDate"] #> - <#=  TruckDictionary["title"] #></td>
+      <td colspan="5" class="mainheader">Post Gazette Pallet Report</td>
+      <td colspan="2" class="mainheader" align="right"></td>
+    </tr>
+    <tr>
+      <td colspan="2" class="header">Created: <#= DateTime.Now.ToShortDateString()+" "+ DateTime.Now.ToLongTimeString() #></td>
+      <td colspan="6" class="header"></td>
+      <td colspan="2" class="header" align="right">Pallet Size: 60</td>
+    </tr>
+    <tr class="header">
+      <td></td>
+      <td align="right"></td>
+      <td align="right"></td>
+      <td align="right"></td>
+      <td align="right"></td>
+      <td align="right"></td>
+      <td align="right"></td>
+      <td align="right"></td>
+      <td align="right"></td>
+      <td align="right"></td>
+    </tr>
+    <tr class="header">
+      <td>Key Truck</td>
+      <td align="right">Drops</td>
+      <td align="right">Prod</td>
+      <td align="right">Bundle Size</td>
+      <td align="right">Papers</td>
+      <td align="right">Bundles</td>
+      <td align="right">Full</td>
+      <td align="right">Part</td>
+      <td align="right">Odds</td>
+      <td align="right">Total</td>
+    </tr>
+    <tr class="header">
+      <td colspan="10"><hr></td>
+    </tr>
+      <# } #>
+	  <tr class="detail">
+      <td colspan="9"><b><#= TruckDictionary["ShortTruckID"]#></b> - <#= TruckDictionary["TruckName"]#>     - +KEY<#= TruckDictionary["ShortTruckID"].Substring (1, 2)#>  724-379-8902 </td>
+    </tr>
+
+       <#    
+	    bool color = false;
+	 if  (TruckDictionary["title"].Contains("Color")) color = true;
+			
+	   
+	   
+	    foreach (KeyValuePair<string, Dictionary<string, Dictionary<string, int>>> product in ProductsDrawGrandTotalsHash)
+			{
+			  foreach (KeyValuePair<string, Dictionary<string, int>> entry in product.Value)
+			{
+			if( (product.Key=="PPG" && color) || (product.Key=="PPG" && entry.Key.Length == 3 && entry.Key[2] == '0')  ){
+			 #>
+          <tr class="detail">
+      <td width="20%"></td>
+      <td align="right" width="5%"><#= TruckDictionary["TotalNumberOfDrops"]#></td>
+      <td align="right" width="10%"><#=product.Key#>-<#= entry.Key#></td>
+      <td align="right" width="10%"><#= entry.Value["StandardBundleSize"]#></td>
+      <td align="right" width="10%"><#= entry.Value["Draw"]#></td>
+      <td align="right" width="10%"><#= entry.Value["Bundles"] #></td>
+      <td align="right" width="5%"><#= entry.Value["FullPallets"] #></td>
+      <td align="right" width="5%"><#= entry.Value["OddPalletContains"] #></td>
+      <td align="right" width="5%"><#= entry.Value["Odds"] #></td>
+      <td align="right" width="5%"><#= entry.Value["Pallets"] #></td>
+    </tr>
+    
+ 
+  <#}
+  }
+  }
+  #>
+  <tr>
+      <td colspan="10"><hr></td>
+    </tr>
+
+  <#+ 
+public StringDictionary TruckDictionary {get; set; }
+    public Dictionary<string, Dictionary<string,Dictionary<string, int>>> ProductsDrawGrandTotalsHash {get; set;}
+
+#>

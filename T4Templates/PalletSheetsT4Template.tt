@@ -1,0 +1,114 @@
+﻿<#@ template language="C#"#>
+<#@ assembly name="System.Core"#>
+<#@ import namespace="System.Linq"#>
+<#@ import namespace="System.Text"#>
+<#@ import namespace="System.Collections.Generic"#>
+<#@ import namespace="System.Collections.Specialized"#>
+<#@ import namespace="System.Collections"#>
+
+    <#       
+    int i = 0;
+
+	 bool preprints = false;
+	 if  (TruckDictionary["title"].Contains("Color") || TruckDictionary["title"].Contains("Daily")) preprints = true;
+			
+	  
+
+
+     foreach (KeyValuePair<string, Dictionary<string,Dictionary<string, int>>> product in ProductsDrawGrandTotalsHash)
+			{
+i++;
+			foreach (KeyValuePair<string, Dictionary<string, int>> entry in product.Value)
+			{
+
+			 if( ((!TruckDictionary["RunDate"].Contains ("Friday")) && product.Key=="PPG" && preprints && entry.Key.Length == 4) ||
+			    (TruckDictionary["RunDate"].Contains ("Friday") && product.Key=="PPG" && ((entry.Key.Length == 3 && entry.Key[2] == '0'))  )){
+			#>
+			<table border="0" width="100%" style="page-break-after:always;">
+<tbody>
+                <tr></tr>
+            <tr></tr>
+            <tr class="mainhead">
+               <td align="left">Key#: <#= TruckDictionary["ShortTruckID"] #> </td>
+               <td align="center">DC#: <#= TruckDictionary["ShortTruckID"].Substring (1, 2) #></td>
+             <td align="right">Seq#: <#= TruckDictionary["seq"] #></td>
+            </tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr class="adhead">
+               <td colspan="3" align="center"><#= TruckDictionary["DeliveryArea"] #></td>
+               <td></td>
+            </tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr class="adhead">
+               <td colspan="3" align="center">Pittsburgh Post-Gazette</td>
+            </tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+               
+            <tr class="genhead">
+               <td colspan="3" align="center">Prod # <#=product.Key#>-<#=entry.Key#></td>
+            </tr>
+            <tr></tr>
+            <tr class="genhead">
+               <td colspan="3" align="center"><#= entry.Value["StandardBundleSize"] #> per bundle</td>
+            </tr>
+            <tr></tr>
+            <tr></tr>
+            <tr class="genhead">
+               <td colspan="3" align="center"><#=  TruckDictionary["RunDate"] #></td>
+            </tr>
+
+         
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr class="mainhead">
+
+                           <td colspan="3" align="center">Odd pallet contains: <#=  entry.Value["OddPalletContains"] #> bundles and <#=  entry.Value["Odds"]  #> odds</td>
+            </tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr class="genhead">
+               <td colspan="3" align="center">1 of <#=  entry.Value["Pallets"] #> Total Pallets </td>
+            </tr>
+    </tbody></table>
+
+      <# } 
+      }
+      }#>
+
+	    <#+ 
+public StringDictionary TruckDictionary {get; set; }
+    public Dictionary<string, Dictionary<string,Dictionary<string, int>>> ProductsDrawGrandTotalsHash {get; set;}
+
+#>

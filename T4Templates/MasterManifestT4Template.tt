@@ -1,0 +1,73 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta http-equiv="X-UA-Compatible" content="IE=8" />
+<style type="text/css">
+@media print {
+.pbinsideavoid {
+page-break-inside: avoid;
+}
+}
+</style>
+
+<STYLE type=text/css>
+
+body {
+	FONT-SIZE: 14pt; FONT-FAMILY: Arial
+}
+.tripHead {
+	FONT-SIZE: 48pt; FONT-FAMILY: Arial
+}
+.tripSubHead {
+	FONT-SIZE: 24pt; FONT-FAMILY: Arial
+}
+.tripInstruct {
+	FONT-SIZE: 14pt; FONT-FAMILY: Arial
+}
+.tripSumHead {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; FONT-FAMILY: Arial
+}
+.drop {
+	FONT-SIZE: 12pt; FONT-FAMILY: Arial
+}
+.dropProd {
+	FONT-SIZE: 10pt; FONT-FAMILY: Arial
+}
+.droptot {
+	FONT-SIZE: 14pt; FONT-FAMILY: Arial
+}
+.dropTotHead {
+	FONT-WEIGHT: bold; FONT-SIZE: 14pt; FONT-FAMILY: Arial
+}
+.dropTotAttn {
+	FONT-WEIGHT: bold; FONT-SIZE: 14pt; FONT-FAMILY: Arial
+}
+.attention {
+	FONT-WEIGHT: bold; FONT-SIZE: 16pt; FONT-FAMILY: Arial
+}
+.dropSubHead {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; FONT-FAMILY: Arial
+}
+</STYLE>
+</HEAD>
+<BODY>
+<TABLE width="100%">
+  <TBODY>
+  <#= report #>
+    </TBODY>
+</TABLE>
+</HTML>
+</BODY>
+</HTML>
+
+
+ <#+ 
+public string report {get; set; }
+
+#>

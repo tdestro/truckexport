@@ -1,0 +1,125 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections.Specialized" #>
+
+    <TR style="PAGE-BREAK-BEFORE: always">
+      <TD><TABLE cellSpacing=0 cellPadding=0 width="100%">
+          <TBODY>
+            <TR>
+              <TD style="FONT-SIZE: 8pt" align=left><#= TruckDictionary["ShortTruckID"] #></TD>
+              <TD style="FONT-SIZE: 8pt" align=middle></TD>
+              <TD style="FONT-SIZE: 8pt" align=right></TD>
+            </TR>
+            <TR>
+              <TD colSpan=3><BR></TD>
+            </TR>
+          </TBODY>
+        </TABLE></TD>
+    </TR><TR>
+	<TR><td style="text-align: center; font-size: 40px;">************************************************************</td></TR>
+	<TR><td style="text-align: center; font-size: 40px;">************************************************************</td></TR>
+    <TR>
+      <TD class=tripHead align=middle><#= TruckDictionary["ShortTruckID"] #></TD>
+    </TR>
+    <TR>
+      <TD class=tripSubHead align=middle>Truck <#= TruckDictionary["TruckName"] #></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle><BR></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle>Post Gazette</TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle><BR></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle><#= TruckDictionary["title"] #> Manifest for  <#= TruckDictionary["RunDate"] #></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle><BR></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle> <#= TruckDictionary["DeliveryArea"] #></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle> <#= TruckDictionary["GenInstructions"] #> </TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle><BR></TD>
+    </TR>
+    <TR>
+      <TD class=tripInstruct align=middle>Grand totals for Trip</TD>
+    </TR>
+    <TR>
+      <TD align=middle><TABLE borderColor=black cellSpacing=0 cellPadding=0 width="75%" 
+        border=2>
+          <TBODY>
+            <TR>
+              <TD><TABLE width="100%">
+                  <TBODY>
+                    <TR class=tripSumHead>
+                      <TD align=left>Products For Trip# <#= TruckDictionary["ShortTruckID"] #></TD>
+                      <TD align=right><i>Bundle Size</i></TD>
+                      <TD align=right><i>Draw</i></TD>
+                      <TD align=right><i>Bundles</i></TD>
+                      <TD align=right><i>Odds</i></TD>
+                    </TR>
+
+           <#       
+
+
+             List<string> sortedKeyList =  outputsort.OrderKeysPPGFirst( new List<string> (ProductsDrawGrandTotalsHash.Keys));
+			 List<string> sortedProductList;
+                        foreach(string key in sortedKeyList)
+                        {
+						sortedProductList =  outputsort.OrderKeysNumerical( new List<string> (ProductsDrawGrandTotalsHash[key].Keys));
+
+                        foreach(string key2 in sortedProductList)
+                        {
+						 Dictionary<string,int> entry = ProductsDrawGrandTotalsHash[key][key2];
+			#>
+			
+                    <TR>
+                      <TD align=left><#=key#>-<#=key2#> <#=productdesc.translate(key2,TruckDictionary["title"])#></TD>
+                      <TD align=right><#=entry["StandardBundleSize"]#></TD>
+                      <TD align=right><#=entry["Draw"]#></TD>
+                      <TD align=right><#=entry["Bundles"]#></TD>
+                      <TD align=right><#=entry["Odds"]#></TD>
+                    </TR>
+        <# 
+    }
+
+    }
+    #>
+                    </TR>
+                  </TBODY>
+                </TABLE></TD>
+            </TR>
+          </TBODY>
+        </TABLE></TD>
+    </TR>
+	
+	<TR><td style="text-align: center; font-size: 40px;">************************************************************</td></TR>
+	<TR><td style="text-align: center; font-size: 40px;">************************************************************</td></TR>
+    <TR>
+
+           
+
+     <#+ 
+public StringDictionary TruckDictionary {get; set; }
+    public Dictionary<string, Dictionary<string,Dictionary<string, int>>> ProductsDrawGrandTotalsHash {get; set;}
+
+#>

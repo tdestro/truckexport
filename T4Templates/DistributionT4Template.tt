@@ -1,0 +1,68 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections.Specialized" #>
+
+<# if(ProductsDrawGrandTotalsHash.Count > 0){
+
+ #>
+
+
+<#    if(TruckDictionary["UseHeader"] == "True"){
+
+ #>
+ <tr>
+ <td colspan="13" align="center"><b>Alternate Product Distribution for <#=  TruckDictionary["RunDate"] #></b>
+</td>
+ </tr>
+ <tr class="title">
+ <td>Key</td>
+ <td>Truck</td>
+ <td>Delivery Area</td>
+  <td>WSJ</td>
+  <td>FTU</td>
+  <td>IBD</td>
+  <td>NYT</td>
+  <td>STL</td>
+  <td>TWP</td>
+  <td>USA</td>
+  <td>USW</td>
+  <td>USE</td>
+  <td>BAR</td>
+ </tr>
+ <# } #>
+  <tr>
+  <td><#= TruckDictionary["ShortTruckID"] #></td>
+  <td><#= TruckDictionary["TruckName"] #></td>
+  <td><#= TruckDictionary["DeliveryArea"].Split(new string[]{"<BR>"}, StringSplitOptions.None)[0] #></td>
+  <td><#= tally(ProductsDrawGrandTotalsHash,"WSJ") #></td>
+  <td><#= tally(ProductsDrawGrandTotalsHash,"FTU") #></td>
+  <td><#= tally(ProductsDrawGrandTotalsHash,"IBD") #></td>
+  <td><#= tally(ProductsDrawGrandTotalsHash,"NYT") #></td>
+  <td><#= tally(ProductsDrawGrandTotalsHash,"STL") #></td>
+  <td><#= tally(ProductsDrawGrandTotalsHash,"TWP") #></td>
+  <td><#= tally(ProductsDrawGrandTotalsHash,"USA") #></td>
+  <td><#= tally(ProductsDrawGrandTotalsHash,"USW") #></td>
+  <td><#= tally(ProductsDrawGrandTotalsHash,"USE") #></td>
+  <td><#= tally(ProductsDrawGrandTotalsHash,"BAR") #></td>
+  </tr>
+   <# } #>
+     <#+ 
+	 
+   private int tally(Dictionary<string, Dictionary<string, Dictionary<string, int>>> ProductsDrawGrandTotalsHash, string prod)
+        {
+            if (!ProductsDrawGrandTotalsHash.ContainsKey(prod)) return 0;
+            int total = 0;
+            foreach (KeyValuePair<string, Dictionary<string, int>> papersection in ProductsDrawGrandTotalsHash[prod])
+            {
+                total += papersection.Value["Draw"];
+            }
+            return total;
+        }
+
+public StringDictionary TruckDictionary {get; set; }
+    public Dictionary<string, Dictionary<string,Dictionary<string, int>>> ProductsDrawGrandTotalsHash {get; set;}
+    public bool altprod{get; set;}
+#>

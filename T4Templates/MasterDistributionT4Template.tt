@@ -1,0 +1,83 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Distribution</title>
+<style type="text/css">
+td {	FONT-FAMILY: Arial;
+	FONT-SIZE: 14pt;
+	padding-left:4px;
+	padding-right:4px;
+}
+.title {
+ 
+ background-color: blue;
+ color:white;
+ }
+
+</style>
+
+</head>
+<body>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    <#= report #>
+
+<tr style="background-color:silver;">
+<td colspan="3"><b>TOTAL DISTRIBUTION</b></td> 
+<td><b><#= tally(ProductsMasterTotalsHash,"WSJ") #></b></td>
+  <td><b><#= tally(ProductsMasterTotalsHash,"FTU") #></b></td>
+  <td><b><#= tally(ProductsMasterTotalsHash,"IBD") #></b></td>
+  <td><b><#= tally(ProductsMasterTotalsHash,"NYT") #></b></td>
+  <td><b><#= tally(ProductsMasterTotalsHash,"STL") #></b></td>
+  <td><b><#= tally(ProductsMasterTotalsHash,"TWP") #></b></td>
+  <td><b><#= tally(ProductsMasterTotalsHash,"USA") #></b></td>
+  <td><b><#= tally(ProductsMasterTotalsHash,"USW") #></b></td>
+  <td><b><#= tally(ProductsMasterTotalsHash,"USE") #></b></td>
+  <td><b><#= tally(ProductsMasterTotalsHash,"BAR") #></b></td>
+</tr>
+    </tbody>
+</table>
+</br>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+  <tr>
+  <td>BAR = Barrons</td><td>FTU = Financial Times</td><td>IBD = Investors Business Daily</td></tr>
+  <tr>
+  <td>NYT = New York Times</td><td>STL = Steelers Digest</td><td> TWP = The Washington Post</td></tr>
+  <tr>
+  <td> USA = USA Today</td> <td> USE = USA Special Edition </td> <td> USA = Sports Weekly</td> </tr>
+  <tr><td>WSJ = Wall Street Journal</td></tr>
+  </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>
+     <#+ 
+	 	 
+   private int tally(Dictionary<string, Dictionary<string, Dictionary<string, int>>> ProductsDrawGrandTotalsHash, string prod)
+        {
+            if (!ProductsDrawGrandTotalsHash.ContainsKey(prod)) return 0;
+            int total = 0;
+            foreach (KeyValuePair<string, Dictionary<string, int>> papersection in ProductsDrawGrandTotalsHash[prod])
+            {
+                total += papersection.Value["Draw"];
+            }
+            return total;
+        }
+
+
+     public Dictionary<string, Dictionary<string, Dictionary<string, int>>> ProductsMasterTotalsHash {get; set;}
+
+public string report {get; set; }
+     public bool altprod{get; set;}
+#>
